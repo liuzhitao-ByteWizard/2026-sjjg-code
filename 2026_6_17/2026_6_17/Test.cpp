@@ -114,7 +114,6 @@ int main()
 	SqListInsert(&ps, 0, 1);
 	SqListInsert(&ps, 1, 2);
 	SqListInsert(&ps, 2, 3);
-	SqListInsert(&ps, 3, 4);
 	SqListPrint(&ps);
 	return 0;
 }

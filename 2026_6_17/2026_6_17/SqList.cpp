@@ -49,32 +49,54 @@ void SqListInit(SqList* ps)
 //	ps->capacity = 0;
 //}
 
-// 在顺序表第 i 个位置 (下标i) 插入元素 x
+//// 我们实现的时候，i用的是下标
+//// 在顺序表的第i个位置插入元素x
+//void SqListInsert(SqList* ps, int i, SqDataType x) {
+//    assert(ps);
+//    assert(i <= ps->size);
+//
+//    // 满了扩容
+//    if (ps->size == ps->capacity) {
+//        // 满了扩容
+//        SqDataType* tmp = (SqDataType*)realloc(ps->arr, sizeof(SqDataType) * ps->capacity * 2);
+//        if (tmp == NULL) {
+//            printf("SqListInsert: 内存申请空间失败!!!\n");
+//            return;
+//        }
+//
+//        ps->arr = tmp;
+//        ps->capacity *= 2;
+//    }
+//
+//    // 挪动数据
+//    int j = ps->size - 1;
+//    while (j >= i) {
+//        ps->arr[j + 1] = ps->arr[j];
+//        --j;
+//    }
+//    ps->arr[i] = x;
+//    ps->size++;
+//}
+
+// 在顺序表第 i 个位置插入元素 x
 void SqListInsert(SqList* ps, int i, SqDataType x)
 {
-    // 1. 检查指针是否有效（防止空指针）
+    // 1. 检查指针是否合法，防止空指针访问
     assert(ps);
 
     // 2. 检查插入位置是否合法（i 可以等于 size，表示尾插）
-    assert(i >= 0 && i <= ps->size);
+    assert(i <= ps->size);
 
-    /*
-    // 如果不用 assert，也可以用这种方式做提示式判断
-    if (i < 0 || i > ps->size)
-    {
-        printf("请在[0, %d]范围内插入\n", ps->size);
-        return;
-    }
-    */
-
-    // 3. 判断是否需要扩容（当前空间已满）
+    // 3. 判断是否需要扩容（当前顺序表已满）
     if (ps->size == ps->capacity)
     {
-        // 扩容：通常扩大 2 倍
-        // realloc：重新申请更大空间，并可能搬移数据
-        SqDataType* tmp =(SqDataType*)realloc(ps->arr,sizeof(SqDataType) * ps->capacity * 2);
+        // 使用 realloc 扩展为原容量的 2 倍
+        // 注意：realloc 可能原地扩容，也可能异地扩容
+        SqDataType* tmp =
+            (SqDataType*)realloc(ps->arr,
+                sizeof(SqDataType) * ps->capacity * 2);
 
-        // 4. 判断 realloc 是否成功
+        // 4. 判断扩容是否成功
         if (tmp == NULL)
         {
             printf("SqListInsert: 内存申请空间失败!!!\n");
@@ -82,20 +104,54 @@ void SqListInsert(SqList* ps, int i, SqDataType x)
         }
 
         // 5. 更新指针和容量
+        // 如果是异地扩容，这里会指向新空间
         ps->arr = tmp;
         ps->capacity *= 2;
     }
 
-    // 6. 从后往前移动数据，为插入腾出位置
-    // j 从最后一个有效元素开始，依次后移
-    for (int j = ps->size - 1; j >= i; j--)
+    // 6. 数据搬移：从后往前挪动元素，为插入腾出位置
+    // j 从最后一个有效元素开始，逐个后移
+    int j = ps->size - 1;
+    while (j >= i)
     {
         ps->arr[j + 1] = ps->arr[j];
+        --j;
     }
 
-    // 7. 在 i 位置插入新元素
+    // 7. 在第 i 个位置插入新元素 x
     ps->arr[i] = x;
 
     // 8. 有效元素个数 +1
     ps->size++;
+}
+
+SqDataType GetElem(SqList* ps, int i)
+{
+	assert(ps);
+
+	//检查查找位置是否合法
+	assert(i >= 0 && i <= ps->size);
+
+	return ps->arr[i];
+
+}
+
+int LocateElem(SqList* ps, SqDataType x)
+{
+    assert(ps);
+
+    for (int i = 0; i < ps->size; i++)
+    {
+        if (ps->arr[i] == x)
+            return i;
+    }
+    return -1;
+}
+
+void SqListPrint(SqList* ps)
+{
+	for (int i = 0; i < ps->size; i++)
+	{
+		printf("%d ", ps->arr[i]);
+	}
 }
