@@ -139,43 +139,38 @@ void ListInsert(LNode* L, int i, LDataType x)
 //	i_1Node->next = newNode;
 //}
 
-//带头结点的删除
+// 带头结点的链表删除
+// 删除下标为 i 的有效结点，i 从 0 开始
 LDataType ListDelete(LNode* L, int i)
 {
 	assert(L && i >= 0);
 
-	// j 用来记录当前 i_1Node 所指向结点的下标
-	// 因为 L 是头结点，不是有效数据结点，所以将 j 初始化为 -1
+	// j 记录 i_1Node 当前指向结点的下标
+	// 头结点不是有效数据结点，因此将头结点看作下标 -1
 	int j = -1;
 	LNode* i_1Node = L;
 
-	// 当 j < i - 1 时，说明还没有找到目标前驱结点
+	// 找到下标为 i 的结点的前一个结点
 	while (j < i - 1 && i_1Node)
 	{
 		j++;
 		i_1Node = i_1Node->next;
 	}
 
-	// 删除前必须保证：
-	// 1. 第 i - 1 个结点存在
-	// 2. 第 i 个结点存在，也就是 i_1Node->next 不能为 NULL
+	// 保证前驱结点存在，并且待删除结点存在
 	assert(i_1Node && i_1Node->next);
 
-	// 这种写法虽然可以跳过第 i 个结点，
-	// 但没有保存第 i 个结点的地址，后面无法 free 释放它
-	// i_1Node->next = i_1Node->next->next;
-
-	// 先保存第 i 个结点的地址
+	// iNode 指向待删除结点
 	LNode* iNode = i_1Node->next;
-	// 保存第 i 个结点的数据，方便删除后返回
+
+	// 保存待删除结点的数据，方便删除后返回
 	LDataType del = iNode->data;
 
-	// 让第 i - 1 个结点指向第 i + 1 个结点
+	// 让前驱结点跳过待删除结点
 	i_1Node->next = iNode->next;
-	// 释放第 i 个结点的空间
+
+	// 释放待删除结点
 	free(iNode);
-	// 将局部指针置空，避免野指针
-	iNode = NULL;
 
 	return del;
 }
