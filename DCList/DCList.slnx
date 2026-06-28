@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DCList/DCList.vcxproj" Id="12c823ae-be1d-48cc-bd94-1291751cc41d" />
+  <Project Path="DCListTests/DCListTests.vcxproj" Id="1374072c-25d9-49b3-a71f-e02edba8ca7b" />
+</Solution>

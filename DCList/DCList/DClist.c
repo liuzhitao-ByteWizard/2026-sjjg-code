@@ -139,3 +139,28 @@ void DCListDelete(DCListNode* pos)
     free(pos);
     pos = NULL;
 }
+void DCListPushFront(DCListNode* L, DCLDataType x)
+{
+    assert(L);
+    DCListInsert(L, x);
+}
+
+void DCListPushBack(DCListNode* L, DCLDataType x)
+{
+    assert(L);
+    DCListInsert(L->prev, x);
+}
+
+void DCListPopFront(DCListNode* L)
+{
+    assert(L);
+    assert(L->next != L);
+    DCListDelete(L->next);
+}
+
+void DCListPopBack(DCListNode* L)
+{
+    assert(L);
+    assert(L->prev != L);
+    DCListDelete(L->prev);
+}
