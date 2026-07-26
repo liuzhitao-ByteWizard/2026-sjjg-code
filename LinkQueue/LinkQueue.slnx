@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="2026_7_24_1/2026_7_24_1.vcxproj" />
+  <Project Path="LinkQueue/LinkQueue.vcxproj" />
 </Solution>
