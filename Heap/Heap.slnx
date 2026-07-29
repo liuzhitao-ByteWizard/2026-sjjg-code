@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Heap.h/Heap.h.vcxproj" Id="5c2a7eb9-1ff2-4dad-b8a9-38e5aad495bf" />
+</Solution>
