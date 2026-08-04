@@ -165,65 +165,93 @@ BTNode* CreateTree()
 }
 
 // 层序遍历二叉树
-// 核心思路：使用队列保存等待访问的结点
-void Levelorder1(BTNode* root)
-{
-    //方法一：使用数组模拟队列，数组中保存的是结点指针（开大一点的数组，忽略假溢出的问题）
+//// 核心思路：使用队列保存等待访问的结点
+//void Levelorder1(BTNode* root)
+//{
+//    //方法一：使用数组模拟队列，数组中保存的是结点指针（开大一点的数组，忽略假溢出的问题）
+//    BTNode* queueArr[100];
+//
+//    //方法二：用malloc动态开辟，注意要使用二级指针
+//    // 动态申请一个能够保存 100 个结点指针的队列
+//    // queueArr 的类型为 BTNode**，本质上是一个结点指针数组
+//    //BTNode** queueArr =
+//    //    (BTNode**)malloc(sizeof(BTNode*) * 100);
+//
+//    // //检查动态内存是否申请成功
+//    //if (queueArr == NULL)
+//    //{
+//    //    printf("malloc fail\n");
+//    //    return;
+//    //}
+//
+//
+//    // front 指向当前队首结点
+//    // rear 指向下一个可以入队的位置
+//    int front = 0;
+//    int rear = 0;
+//
+//    // 如果根结点不为空，先将根结点入队
+//    if (root)
+//    {
+//        queueArr[rear++] = root;
+//    }
+//
+//    // front != rear 表示队列不为空
+//    while (front != rear)
+//    {
+//        // 取出队首结点
+//        BTNode* frontNode = queueArr[front];
+//
+//
+//        // front 后移，表示队首结点出队
+//        ++front;
+//
+//        if (frontNode)
+//            printf("%c ", frontNode->data);
+//
+//        // 左孩子不为空，将左孩子入队
+//        if (frontNode && frontNode->left)
+//        {
+//            queueArr[rear++] = frontNode->left;
+//        }
+//
+//        // 右孩子不为空，将右孩子入队
+//        if (frontNode && frontNode->right)
+//        {
+//            queueArr[rear++] = frontNode->right;
+//        }
+//    }
+//
+//    // 层序遍历结束后换行
+//    printf("\n");
+//}
+
+void Levelorder1(BTNode* root) {
     BTNode* queueArr[100];
 
-    //方法二：用malloc动态开辟，注意要使用二级指针
-    // 动态申请一个能够保存 100 个结点指针的队列
-    // queueArr 的类型为 BTNode**，本质上是一个结点指针数组
-    //BTNode** queueArr =
-    //    (BTNode**)malloc(sizeof(BTNode*) * 100);
-
-    // //检查动态内存是否申请成功
-    //if (queueArr == NULL)
-    //{
-    //    printf("malloc fail\n");
-    //    return;
-    //}
-
-
-    // front 指向当前队首结点
-    // rear 指向下一个可以入队的位置
     int front = 0;
-    int rear = 0;
+    int rear = 0; //指向队列末尾的下一个位置
+    int leverSize = 1; //当前遍历层数
 
-    // 如果根结点不为空，先将根结点入队
-    if (root)
-    {
+    if (root) {
         queueArr[rear++] = root;
     }
 
-    // front != rear 表示队列不为空
-    while (front != rear)
-    {
-        // 取出队首结点
-        BTNode* frontNode = queueArr[front];
+    while (rear - front != 0) {
+        while (leverSize--) {
+            BTNode* frontNode = queueArr[front++];
+            if (frontNode)
+                printf("%c ", frontNode->data);
 
-
-        // front 后移，表示队首结点出队
-        ++front;
-
-        if (frontNode)
-            printf("%c ", frontNode->data);
-
-        // 左孩子不为空，将左孩子入队
-        if (frontNode && frontNode->left)
-        {
-            queueArr[rear++] = frontNode->left;
+            //取左右孩子入队
+            if (frontNode->left)
+                queueArr[rear++] = frontNode->left;
+            if (frontNode->right)
+                queueArr[rear++] = frontNode->right;
         }
-
-        // 右孩子不为空，将右孩子入队
-        if (frontNode && frontNode->right)
-        {
-            queueArr[rear++] = frontNode->right;
-        }
+        printf("\n");
+        leverSize = rear - front;
     }
-
-    // 层序遍历结束后换行
-    printf("\n");
 }
 
 int main() {
